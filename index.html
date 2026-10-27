@@ -154,6 +154,23 @@
   .g-pager.on { display: flex; }
   button:disabled { background: #d8c3b0; cursor: default; }
 
+  /* 채팅 버튼 + agent.html 팝업 */
+  #chatBtn {
+    position: fixed; right: 20px; bottom: 20px; z-index: 50;
+    padding: 14px 20px; font-size: 16px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.3);
+  }
+  #chatPanel {
+    position: fixed; right: 20px; bottom: 80px; z-index: 50;
+    width: 380px; max-width: calc(100vw - 24px);
+    height: 560px; max-height: calc(100vh - 100px);
+    border-radius: 14px; overflow: hidden; background: #fff;
+    box-shadow: 0 8px 30px rgba(0,0,0,.35);
+    display: none;
+  }
+  #chatPanel.on { display: block; }
+  #chatPanel iframe { width: 100%; height: 100%; border: 0; display: block; }
+
   /* 모바일: 한 줄로 쌓기 */
   @media (max-width: 760px) {
     .page {
@@ -286,6 +303,20 @@
   </footer>
 
 </div>
+
+<button id="chatBtn">💬 채팅</button>
+<div id="chatPanel"><iframe id="chatFrame" title="제주 특산물 에이전트 채팅"></iframe></div>
+
+<script>
+  // 버튼을 누르면 agent.html 을 불러와 채팅 화면을 연다
+  document.getElementById('chatBtn').onclick = () => {
+    const panel = document.getElementById('chatPanel');
+    const frame = document.getElementById('chatFrame');
+    if (!frame.getAttribute('src')) frame.src = 'agent.html';
+    const open = panel.classList.toggle('on');
+    document.getElementById('chatBtn').textContent = open ? '✖ 닫기' : '💬 채팅';
+  };
+</script>
 
 <script>
   const step = 100;   // 한 번 누를 때 증가하는 값
